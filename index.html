@@ -3,229 +3,185 @@
 <head>
     <title>Nathaniel Williams' Portfolio</title>
     <style>
-        html, body, .wrap, .main, .inner {
-            height: 100%;
-            margin: 0;
+        :root
+        {
+            --grid_margin: 1.5rem;
+            --grid_margin_bottom: calc(var(--grid_margin) * 2);
         }
-        .wrap {
-            box-sizing: border-box;    /* Include border width in sizing */
-            display: table;
+        * { font-family: 'Malgun Gothic'; color: #f7f5f1; box-sizing: border-box;}
+        *, *::before, *::after
+        {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        a:link, a:visited{font-family: 'Courier'; color: #957DC9; text-decoration: none;}
+
+        header
+        {
+            padding: 50px 0px;
+            z-index: 2;
+            background-color: #3a3b3f;
+            text-align:center;
+            overflow-x: hidden;
+            position: fixed;
+            top: 0;
+            width: 100%
+        }
+        #projects
+        {
+            text-align: center;
+            justify-content: center;
+            display: grid;
+            grid-gap: var(--grid_margin_bottom) calc(2 * var(--grid_margin));
+            grid-template-columns: 1fr;
+            margin-left: 30px;
+            margin-right: 30px;
+        }
+
+        @media (min-width: 500px)
+        {
+            #projects
+            {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (min-width: 1000px)
+        {
+            #projects
+            {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        @media (min-width: 1500px)
+        {
+            #projects
+            {
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+            }
+        }
+
+        .panel
+        {
+            --color: black;
+            display: block;
+            position: relative;
+            overflow: hidden;
+            font-size: 1.4em;
+            background-size: cover;
+            cursor: pointer;
+            border-radius: 1.5rem;
+        }
+
+        #projects a .overlay, #projects a:focus .overlay
+        {
+            background-color: var(--color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top:0;
+            bottom:0;
+            right: 90%;
+            left: -90%;
+            transition: right .2s, left .2s;
+        }
+        
+        #projects a:hover .overlay, #projects a:active .overlay
+        {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        #projects a .overlay p
+        {
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+        
+        #projects a .background
+        {
             width: 100%;
-        }
-        .fixed, .main {
-            display: table-row;
-        }
-        .inner {
-            overflow: auto;
-        }
-        * { font-family: 'Malgun Gothic'; color: #f7f5f1; }
-        a:link      {font-family: 'Courier'; color: #957DC9; text-decoration: none;}
-        a:visited   {font-family: 'Courier';color: #957DC9; text-decoration: none;}
-        a:hover     {font-family: 'Courier';color: #957DC9; text-decoration: underline;}
-        a:active    {font-family: 'Courier';color: #957DC9; text-decoration: underline; }
-
-        p.project-title
-        {
-            text-align: left;
-            padding: 25px 0px 0px 50px;
-            font-size: large;
+            max-width: 100%;
+            height:100%;
+            max-height:100%;
         }
         
-        p.bio
+        #projects a .background img 
         {
-            height: calc(30px + ((100vw - (10vw - 50px)) / 10));
-            max-height: calc(30px + ((100vw - (10vw - 50px)) / 10));
-            text-align:left;
-            vertical-align: text-top;
-            padding: 5px 15px;
-            overflow-x: auto;
+            width: 100%;
+            max-width: 100%;
+            height:100%;
+            max-height:100%;
+            object-fit: cover;
+            object-position: center;
         }
 
-        img.project-preview
+        .main
         {
-            border-radius:25px;
-            height: calc(85px + ((100vw - (10vw - 50px)) / 10));
-            width: calc((85px + ((100vw - (10vw - 50px)) / 10))*45/30);
-        }
-
-        div.header
-        {
-            padding: 50px 0 0 0;
-            height: 450px;
-            background-color: #3a3b3f;
-            text-align:center;
-        }
-
-        div.container
-        {
-            padding-top: min(2vh, 5px);
-            padding-bottom: 0px;
-            padding-right: max(1vw, 10px);
-            padding-left: max(1vw, 10px);
-        }
-
-        div.project-panel
-        {
-            margin-top: 10px;
-            margin-bottom: 5px;
-            margin-left: calc(15vw - 50px);
-            margin-right: calc(15vw - 50px);
-            text-align:center;
-            height: calc(220px + ((100vw - (10vw - 50px)) / 10));
-            background-color: #3a3b3f;
-            border-radius:25px;
-        }
-
-        table.project-info
-        {
-            padding: 10px 10px;
-            height: calc(135px + ((100vw - (10vw - 50px)) / 10));
-        }
-
-        td.link
-        {
-            text-align: left;
-            padding: 15px 5px;
-            padding-left: 2vw;
-            font-size: small;
-        }
-        
-        td.project-preview-container
-        {
-            padding: 15px 3vw 1vw 1.5vw;
-            border-right: 1px solid;
+            margin: 50px;
+            margin-top: 0px;
         }
 
         body
         {
+            width: 100%;
+            min-height: 100%;
             background-color: #332e4d;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: cover;
             margin:0;
-            display: table;
-            height: 100%;
+            text-align: center;
+        }
+
+        .content
+        {
+            width: 100%;
+            max-width: 2000px;
+            margin: 0 auto;
         }
     </style>
 
 </head>
 
 <body>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <div class="wrap">
-        <div class = "fixed">
-            <div class = "header">
-                <img src="avatar.jpg" style="border-radius:50%;width:8vw; min-width: 80px;">
-                <h1>Nathaniel Williams</h1>
-                <hr color=#957DC9 width="5%" size="5" noshade>
-                <p style="padding-top: 15px;">Freelance Programmer and Game Developer</p>
-                <a href="https://twitter.com/_Jathamiel" target="_blank" rel="noopener noreferrer">TWITTER</a> | <a href="https://jathamiel.itch.io/" target="_blank" rel="noopener noreferrer">ITCH.IO</a> | <a href="Nathaniel_Williams_Resume.pdf" target="_blank" rel="noopener noreferrer">RESUME</a>
-            </div>
-        </div>
-        <div class = "main">
-            <div class="inner">
-                <div class = "container">
-                    <div class="project-panel">
-                        <p class="project-title"><strong>Charmlings</strong> - Cancelled</p>
-                        <table class="project-info">
-                            <tr>
-                                <td class="project-preview-container">
-                                <img class="project-preview" src="charmlings_cover.png">
-                                </td>
+    <header id="header">
+        <img src="avatar.jpg" style="border-radius:50%;width:8vw; min-width: 80px;">
+        <h1>Nathaniel Williams</h1>
+        <hr color=#957DC9 width="80" size="5" noshade>
+        <p style="padding-top: 15px;">Freelance Programmer and Game Developer</p>
 
-                                <td>
-                                    <table>
-                                        <tr><p class="bio">
-                                            <strong>Lead Programmer<br><br></strong>
-                                            A monster training/battling rpg developed for Unity. 
-                                            I am the only programmer on the project and I'm responsible for the battle system, map loading, and everything technical. 
-                                            The general framework (UI and movement) were completed before I joined, but I will be Helping to clean thise up aswell.
-                                            I also developed a few tools for the project to speed up development.
-                                        </p></tr>
-                                        <tr><td class="link"></tr>
-                                    </table>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
+        <a href="https://twitter.com/_Jathamiel" target="_blank" rel="noopener noreferrer">TWITTER</a> | 
+        <a href="https://jathamiel.itch.io/" target="_blank" rel="noopener noreferrer">ITCH.IO</a> | 
+        <a href="#" target="_blank" rel="noopener noreferrer" onclick="return false;">RESUME</a>
 
-                <div class = "container">
-                    <div class="project-panel">
-                        <p class="project-title"><strong>Phantom Cafe</strong> - Completed</p>
-                        <table class="project-info">
-                            <tr>
-                                <td class="project-preview-container">
-                                <img class="project-preview" src="phantom_cafe_cover.png">
-                                </td>
-
-                                <td>
-                                    <table>
-                                        <tr><p class="bio">
-                                            <strong>Programmer/Game Designer<br><br></strong>
-                                            A quick little game I made in about a month during my free time while I was taking 3 online classes.
-                                            I was in charge of pretty much everything in terms of development.
-                                            Learning about Godot's UI system took the most time in the project, as I wanted to keep th UI simple but still functional.
-                                        </p></tr>
-                                        <tr><td class="link"><a href="https://jathamiel.itch.io/phantom-cafe" target="_blank" rel="noopener noreferrer">PLAY GAME</a></tr>
-                                    </table>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-
-                <div class = "container">
-                    <div class="project-panel">
-                        <p class="project-title"><strong>Polymorph</strong> - Completed</p>
-                        <table class="project-info">
-                            <tr>
-                                <td class="project-preview-container">
-                                <img class="project-preview" src="polymorph_cover.png">
-                                </td>
-
-                                <td>
-                                    <table>
-                                        <tr><p class="bio">
-                                            <strong>Co-Programmer/Game Designer<br><br></strong>
-                                            A game I made with a friend of mine in 2019.
-                                            I've learned a lot about programming, games, and everything since I worked on this.
-                                            A big goal of mine is to completely re-do this project with the knowledge I have now.
-                                            I really regret not making the music more reactive to the game state.
-                                        </p></tr>
-                                        <tr><td class="link"><a href="https://jathamiel.itch.io/polymorph" target="_blank" rel="noopener noreferrer">PLAY GAME</a></tr>
-                                    </table>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-
-                <div class = "container">
-                    <div class="project-panel">
-                        <p class="project-title"><strong>Beat'em Up</strong> - On Hold</p>
-                        <table class="project-info">
-                            <tr>
-                                <td class="project-preview-container">
-                                <img class="project-preview" src="blank.png">
-                                </td>
-
-                                <td>
-                                    <table>
-                                        <tr><p class="bio">
-                                            <strong>Solo Dev<br><br></strong>
-                                            This was supposed to be a pretty basic beat'em up that I used as a way to learn opengl by making my own engine. 
-                                            There are currently no assets, but once I have more time I plan on finishing this up adding actual characters, sound effects, etc.
-                                        </p></tr>
-                                        <tr><td class="link"><a href="https://github.com/Jathamiel/Code-Examples/raw/main/Other/C%2B%2B%20OpenGL%20BeatemUp%20(Unfinished)/CrystalCity.zip" target="_blank" rel="noopener noreferrer">PLAY GAME</a> | <a href="https://github.com/Jathamiel/Code-Examples/tree/main/Other/C%2B%2B%20OpenGL%20BeatemUp%20(Unfinished)/src" target="_blank" rel="noopener noreferrer">SOURCE CODE</a></tr>
-                                    </table>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
+    </header>
+    <div class="content" id="content">
+        <div class = "projects" id="projects">
         </div>
     </div>
+    
 </body>
+<script src = "projects.js"></script>
+<script src = "panel_creator.js"></script>
+<script>
+    function setMargin()
+    {
+        main.setAttribute("style", "margin-top: "+(header.offsetHeight+100).toString()+"px ;");
+    }
+    var header = document.getElementById("header");
+    var main = document.getElementById("content");
+    var project_grid = document.getElementById("projects");
+    setMargin();
+    window.onresize = function() {setMargin()};
+    for(var i = 0; i < projects.length; i++)
+    {
+        project_grid.appendChild(createPanel(projects[i]));
+    }
+</script>
 </html>
