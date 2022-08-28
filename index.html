@@ -29,6 +29,7 @@
             top: 0;
             width: 100%
         }
+        
         #projects
         {
             text-align: center;
@@ -189,11 +190,11 @@
     var header = document.getElementById("header");
     var main = document.getElementById("content");
     var project_grid = document.getElementById("projects");
-    setMargin();
-    window.onresize = function() {setMargin()};
     for(var i = 0; i < projects.length; i++)
     {
         project_grid.appendChild(createPanel(projects[i]));
     }
+    setMargin();
+    window.onresize = function() {setMargin()};
 </script>
 </html>
